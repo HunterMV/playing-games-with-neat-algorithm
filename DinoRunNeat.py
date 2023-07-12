@@ -11,7 +11,7 @@ pygame.init()
 # Constants
 SCREEN_HEIGHT = 600
 SCREEN_WIDTH = 1100
-Screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+SCREEN = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 
 Running = [pygame.image.load(os.path.join('Assets/Dino', 'DinoRun1.png')),
            pygame.image.load(os.path.join('Assets/Dino', 'DinoRun2.png'))]
@@ -147,7 +147,7 @@ def eval_genomes(genomes, config):
         if points > high_score:
             high_score = points
         text = Font.render(f'Points: {str(points)}', True, (0, 0, 0))
-        Screen.blit(text, (950, 50))
+        SCREEN.blit(text, (950, 50))
 
     def statistics():
         global dinosaurs, game_speed, ge, high_score
@@ -157,16 +157,16 @@ def eval_genomes(genomes, config):
         text_3 = Font.render(f'Game Speed: {str(game_speed)}', True, (0, 0, 0))
         text_4 = Font.render(f'High Score: {str(high_score)}', True, (0, 0, 0))
 
-        Screen.blit(text_1, (50, 450))
-        Screen.blit(text_2, (50, 480))
-        Screen.blit(text_3, (50, 510))
-        Screen.blit(text_4, (50, 540))
+        SCREEN.blit(text_1, (50, 450))
+        SCREEN.blit(text_2, (50, 480))
+        SCREEN.blit(text_3, (50, 510))
+        SCREEN.blit(text_4, (50, 540))
 
     def background():
         global x_pos_bg, y_pos_bg, high_score
         image_width = BG.get_width()
-        Screen.blit(BG, (x_pos_bg, y_pos_bg))
-        Screen.blit(BG, (image_width + x_pos_bg, y_pos_bg))
+        SCREEN.blit(BG, (x_pos_bg, y_pos_bg))
+        SCREEN.blit(BG, (image_width + x_pos_bg, y_pos_bg))
         if x_pos_bg <= -image_width:
             x_pos_bg = 0
         x_pos_bg -= game_speed
@@ -178,14 +178,13 @@ def eval_genomes(genomes, config):
                 pygame.quit()
                 sys.exit()
 
-        Screen.fill((255, 255, 255))
+        SCREEN.fill((255, 255, 255))
 
         for dinosaur in dinosaurs:
             dinosaur.update()
-            dinosaur.draw(Screen)
+            dinosaur.draw(SCREEN)
 
         if len(dinosaurs) == 0:
-            save = high_score
             break
 
         if len(obstacles) == 0:
@@ -196,7 +195,7 @@ def eval_genomes(genomes, config):
                 obstacles.append(LargeCactus(Large_Cactus, random.randint(0, 2)))
 
         for obstacle in obstacles:
-            obstacle.draw(Screen)
+            obstacle.draw(SCREEN)
             obstacle.update()
             for i, dinosaur in enumerate(dinosaurs):
                 if dinosaur.rect.colliderect(obstacle.rect):
